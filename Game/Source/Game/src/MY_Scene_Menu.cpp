@@ -22,13 +22,15 @@ MY_Scene_Menu::MY_Scene_Menu(Game * _game) :
 	TextLabel * label3 = new TextLabel(uiLayer->world, font, textShader);
 	TextLabel * label4 = new TextLabel(uiLayer->world, font, textShader);
 	TextLabel * label5 = new TextLabel(uiLayer->world, font, textShader);
+	TextLabel * label6 = new TextLabel(uiLayer->world, font, textShader);
 
 	// set the text on the labels
 	label1->setText("Box2D Test Scene");
 	label2->setText("Bullet3D Test Scene");
 	label3->setText("Surface Shader Test Scene");
 	label4->setText("Screen Shader Test Scene");
-	label5->setText("Quit Game");
+	label5->setText("VR Test Scene");
+	label6->setText("Quit Game");
 
 	// make the labels' background visible (by default both the scene's clear colour and the text colour will be black)
 	label1->setBackgroundColour(1,1,1,1);
@@ -36,6 +38,7 @@ MY_Scene_Menu::MY_Scene_Menu(Game * _game) :
 	label3->setBackgroundColour(1,1,1,1);
 	label4->setBackgroundColour(1,1,1,1);
 	label5->setBackgroundColour(1,1,1,1);
+	label6->setBackgroundColour(1,1,1,1);
 
 	// make the labels clickable
 	label1->setMouseEnabled(true);
@@ -43,6 +46,7 @@ MY_Scene_Menu::MY_Scene_Menu(Game * _game) :
 	label3->setMouseEnabled(true);
 	label4->setMouseEnabled(true);
 	label5->setMouseEnabled(true);
+	label6->setMouseEnabled(true);
 
 	// add listeners to each label, making them buttons that take the player to different scenes
 	label1->eventManager.addEventListener("click", [&](sweet::Event * _event){
@@ -58,6 +62,9 @@ MY_Scene_Menu::MY_Scene_Menu(Game * _game) :
 		game->switchScene("screenshaders", false);
 	});
 	label5->eventManager.addEventListener("click", [&](sweet::Event * _event){
+		game->switchScene("vr", false);
+	});
+	label6->eventManager.addEventListener("click", [&](sweet::Event * _event){
 		game->exit();
 	});
 
@@ -68,6 +75,7 @@ MY_Scene_Menu::MY_Scene_Menu(Game * _game) :
 	layout->addChild(label3);
 	layout->addChild(label4);
 	layout->addChild(label5);
+	layout->addChild(label6);
 
 	// add the layout to the uiLayer
 	uiLayer->addChild(layout);
@@ -76,13 +84,4 @@ MY_Scene_Menu::MY_Scene_Menu(Game * _game) :
 
 	// add a mouse indicator (AKA a cursor) to the uiLayer so that the user can see what they're doing
 	uiLayer->addMouseIndicator();
-}
-
-MY_Scene_Menu::~MY_Scene_Menu(){
-}
-
-
-void MY_Scene_Menu::update(Step * _step){
-	// Scene update
-	MY_Scene_Base::update(_step);
 }

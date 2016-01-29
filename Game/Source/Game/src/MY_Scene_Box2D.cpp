@@ -39,6 +39,9 @@ MY_Scene_Box2D::MY_Scene_Box2D(Game * _game) :
 }
 
 MY_Scene_Box2D::~MY_Scene_Box2D(){
+	// we need to destruct the scene elements before the physics world to avoid memory issues
+	deleteChildTransform();
+	delete box2dWorld;
 }
 
 

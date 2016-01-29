@@ -10,14 +10,19 @@ MY_Scene_ScreenShaders::MY_Scene_ScreenShaders(Game * _game) :
 	screenSurface(new RenderSurface(screenSurfaceShader)),
 	screenFBO(new StandardFrameBuffer(true))
 {
+	// set-up some UI to toggle between results
+	uiLayer->addMouseIndicator();
 
+
+	// memory management
 	++screenSurface->referenceCount;
 	++screenSurfaceShader->referenceCount;
 	++screenFBO->referenceCount;
 }
 
 MY_Scene_ScreenShaders::~MY_Scene_ScreenShaders(){
-
+	
+	// memory management
 	screenSurface->decrementAndDelete();
 	screenSurfaceShader->decrementAndDelete();
 	screenFBO->decrementAndDelete();
@@ -29,16 +34,22 @@ void MY_Scene_ScreenShaders::update(Step * _step){
 }
 
 void MY_Scene_ScreenShaders::render(sweet::MatrixStack * _matrixStack, RenderOptions * _renderOptions){
+	// keep our screen framebuffer up-to-date with the game's viewport
 	screenFBO->resize(game->viewPortWidth, game->viewPortHeight);
 
+	// bind our screen framebuffer
 	FrameBufferInterface::pushFbo(screenFBO);
-
+	// render the scene
 	MY_Scene_Base::render(_matrixStack, _renderOptions);
-
+	// unbind our screen framebuffer, rebinding the previously bound framebuffer
+	// since we didn't have one bound before, this will be the default framebuffer (i.e. the one visible to the player)
 	FrameBufferInterface::popFbo();
 
-
+	// render our screen framebuffer using the standard render surface
 	screenSurface->render(screenFBO->getTextureId());
+
+	// render the uiLayer after the screen surface in order to avoid hiding it through shader code
+	uiLayer->render(_matrixStack, _renderOptions);
 }
 
 void MY_Scene_ScreenShaders::load(){

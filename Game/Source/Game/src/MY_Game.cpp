@@ -9,6 +9,7 @@
 #include <MY_Scene_Bullet3D.h>
 #include <MY_Scene_SurfaceShaders.h>
 #include <MY_Scene_ScreenShaders.h>
+#include <MY_Scene_VR.h>
 
 
 MY_Game::MY_Game() :
@@ -24,11 +25,10 @@ MY_Game::MY_Game() :
 	scenes["surfaceshaders"] = new MY_Scene_SurfaceShaders(this);
 	scenes["screenshaders"] = new MY_Scene_ScreenShaders(this);
 	scenes["surfaceshaders"] = new MY_Scene_SurfaceShaders(this);
+	scenes["vr"] = new MY_Scene_VR(this);
 }
 
-MY_Game::~MY_Game(){
-
-}
+MY_Game::~MY_Game(){}
 
 void MY_Game::addSplashes(){
 	// add default splashes

@@ -40,6 +40,9 @@ MY_Scene_Bullet3D::MY_Scene_Bullet3D(Game * _game) :
 }
 
 MY_Scene_Bullet3D::~MY_Scene_Bullet3D(){
+	// we need to destruct the scene elements before the physics world to avoid memory issues
+	deleteChildTransform();
+	delete bulletWorld;
 }
 
 

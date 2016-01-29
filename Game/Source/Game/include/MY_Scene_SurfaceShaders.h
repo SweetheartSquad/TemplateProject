@@ -17,5 +17,4 @@ public:
 	virtual void update(Step * _step) override;
 
 	MY_Scene_SurfaceShaders(Game * _game);
-	~MY_Scene_SurfaceShaders();
 };

@@ -83,9 +83,6 @@ MY_Scene_SurfaceShaders::MY_Scene_SurfaceShaders(Game * _game) :
 	light->childTransform->addChild(new MeshEntity(cubeMesh, baseShader),false);
 }
 
-MY_Scene_SurfaceShaders::~MY_Scene_SurfaceShaders(){
-}
-
 
 void MY_Scene_SurfaceShaders::update(Step * _step){
 	// scene update
