@@ -30,6 +30,19 @@ MY_Scene_ScreenShaders::~MY_Scene_ScreenShaders(){
 
 
 void MY_Scene_ScreenShaders::update(Step * _step){
+	// Screen shader update
+	// Screen shaders are typically loaded from a file instead of built using components, so to update their uniforms
+	// we need to use the OpenGL API calls
+	screenSurfaceShader->bindShader(); // remember that we have to bind the shader before it can be updated
+	GLint test = glGetUniformLocation(screenSurfaceShader->getProgramId(), "time");
+	checkForGlError(0,__FILE__,__LINE__);
+	if(test != -1){
+		glUniform1f(test, _step->time);
+		checkForGlError(0,__FILE__,__LINE__);
+	}
+
+
+	// Scene update
 	MY_Scene_Base::update(_step);
 }
 
