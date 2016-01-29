@@ -31,7 +31,6 @@ MY_Scene_Box2D::MY_Scene_Box2D(Game * _game) :
 	player = new Box2DSprite(box2dWorld, b2_dynamicBody, baseShader, MY_ResourceManager::globalAssets->getTexture("DEFAULT")->texture, 1, 1);
 	player->createFixture(); // when we're using a Box2DSprite, createFixture will make a collider which matches the provided width and height of the sprite (note that this is different from the actual texture size)
 	childTransform->addChild(player);
-	//player->configureUVs();
 
 	// when dealing with physics nodes, we use translatePhysical instead of editing the Transform nodes directly
 	// this is because we need to inform the physics simulation of the change, not our Transform hierarchy
