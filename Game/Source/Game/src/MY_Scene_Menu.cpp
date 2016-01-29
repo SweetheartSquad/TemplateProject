@@ -1,8 +1,8 @@
 #pragma once
 
 #include <MY_Scene_Menu.h>
-#include <sweet/UI.h>
 #include <shader/ComponentShaderText.h>
+#include <sweet/UI.h>
 
 MY_Scene_Menu::MY_Scene_Menu(Game * _game) :
 	MY_Scene_Base(_game)

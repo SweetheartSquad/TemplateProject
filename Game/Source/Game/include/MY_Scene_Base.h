@@ -3,10 +3,9 @@
 #include <Scene.h>
 #include <Game.h>
 #include <UILayer.h>
-#include <BulletDebugDrawer.h>
-#include <BulletWorld.h>
 #include <MousePerspectiveCamera.h>
 
+#include <MY_ResourceManager.h>
 class RenderSurface;
 class StandardFrameBuffer;
 class ComponentShaderText;

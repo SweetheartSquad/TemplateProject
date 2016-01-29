@@ -1,44 +1,21 @@
 #pragma once
 
 #include <MY_Scene_Base.h>
-#include <MY_ResourceManager.h>
 
 #include <MeshEntity.h>
 #include <MeshInterface.h>
 #include <MeshFactory.h>
-#include <Resource.h>
-
-#include <DirectionalLight.h>
-#include <PointLight.h>
-#include <SpotLight.h>
 
 #include <shader\ComponentShaderBase.h>
 #include <shader\ComponentShaderText.h>
 #include <shader\ShaderComponentText.h>
 #include <shader\ShaderComponentTexture.h>
 #include <shader\ShaderComponentDiffuse.h>
-#include <shader\ShaderComponentHsv.h>
 #include <shader\ShaderComponentMVP.h>
-
-#include <Box2DWorld.h>
-#include <Box2DMeshEntity.h>
-#include <Box2DDebugDrawer.h>
-
-#include <MousePerspectiveCamera.h>
-
-#include <Mouse.h>
-#include <Keyboard.h>
-#include <GLFW\glfw3.h>
 
 #include <RenderSurface.h>
 #include <StandardFrameBuffer.h>
 #include <NumberUtils.h>
-
-#include <NodeBulletBody.h>
-#include <BulletMeshEntity.h>
-#include <TextArea.h>
-#include <Box2DWorld.h>
-#include <Box2DDebugDrawer.h>
 
 #include <RenderOptions.h>
 
@@ -54,7 +31,7 @@ MY_Scene_Base::MY_Scene_Base(Game * _game) :
 	debugCam(new MousePerspectiveCamera())
 {
 	baseShader->addComponent(new ShaderComponentMVP(baseShader));
-	baseShader->addComponent(new ShaderComponentDiffuse(baseShader));
+	//baseShader->addComponent(new ShaderComponentDiffuse(baseShader));
 	baseShader->addComponent(new ShaderComponentTexture(baseShader));
 	baseShader->compileShader();
 
