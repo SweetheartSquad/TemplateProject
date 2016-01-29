@@ -24,12 +24,14 @@ MY_Scene_Bullet3D::MY_Scene_Bullet3D(Game * _game) :
 	ground->setColliderAsStaticPlane(0,1,0);
 	ground->createRigidBody(0); // a mass of zero means that it will be a static body instead of a dynamic one
 	childTransform->addChild(ground);
+	ground->meshTransform->rotate(90, 1, 0, 0, kOBJECT); // the plane is vertical, so we need to rotate it in order to match the collider
 
 	// Setup the player
 	player = new BulletMeshEntity(bulletWorld, MeshFactory::getCubeMesh(5), baseShader);
 	player->setColliderAsBoundingBox();
 	player->createRigidBody(1);
 	childTransform->addChild(player);
+	player->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("DEFAULT")->texture);
 
 	// when dealing with physics nodes, we use translatePhysical instead of editing the Transform nodes directly
 	// this is because we need to inform the physics simulation of the change, not our Transform hierarchy
