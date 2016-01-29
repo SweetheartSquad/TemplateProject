@@ -64,8 +64,8 @@ MY_Scene::MY_Scene(Game * _game) :
 
 
 	// remove initial camera
-	childTransform->removeChild(cameras.at(0)->parents.at(0));
-	delete cameras.at(0)->parents.at(0);
+	childTransform->removeChild(cameras.at(0)->firstParent());
+	delete cameras.at(0)->firstParent();
 	cameras.pop_back();
 
 	//Set up debug camera
@@ -73,12 +73,9 @@ MY_Scene::MY_Scene(Game * _game) :
 	cameras.push_back(debugCam);
 	childTransform->addChild(debugCam);
 	debugCam->farClip = 1000.f;
-	debugCam->childTransform->rotate(90, 0, 1, 0, kWORLD);
 	debugCam->parents.at(0)->translate(5.0f, 1.5f, 22.5f);
 	debugCam->yaw = 90.0f;
 	debugCam->pitch = -10.0f;
-	debugCam->speed = 1;
-	debugCam->alignMouse();
 
 	activeCamera = debugCam;
 
@@ -130,22 +127,6 @@ void MY_Scene::update(Step * _step){
 		cycleCamera();
 	}
 
-	float speed = 1;
-	MousePerspectiveCamera * cam = dynamic_cast<MousePerspectiveCamera *>(activeCamera);
-	if(cam != nullptr){
-		speed = cam->speed;
-	}
-	// camera controls
-	if (keyboard->keyDown(GLFW_KEY_UP)){
-		activeCamera->firstParent()->translate((activeCamera->forwardVectorRotated) * speed);
-	}if (keyboard->keyDown(GLFW_KEY_DOWN)){
-		activeCamera->firstParent()->translate((activeCamera->forwardVectorRotated) * -speed);
-	}if (keyboard->keyDown(GLFW_KEY_LEFT)){
-		activeCamera->firstParent()->translate((activeCamera->rightVectorRotated) * -speed);
-	}if (keyboard->keyDown(GLFW_KEY_RIGHT)){
-		activeCamera->firstParent()->translate((activeCamera->rightVectorRotated) * speed);
-	}
-
 	glm::uvec2 sd = sweet::getWindowDimensions();
 	uiLayer.resize(0, sd.x, 0, sd.y);
 	Scene::update(_step);
@@ -154,17 +135,18 @@ void MY_Scene::update(Step * _step){
 
 void MY_Scene::render(sweet::MatrixStack * _matrixStack, RenderOptions * _renderOptions){
 	screenFBO->resize(game->viewPortWidth, game->viewPortHeight);
-	//Bind frameBuffer
-	screenFBO->bindFrameBuffer();
-	//render the scene to the buffer
-	
+
+
+	FrameBufferInterface::pushFbo(screenFBO);
+
 	_renderOptions->clear();
 	Scene::render(_matrixStack, _renderOptions);
-
-	//Render the buffer to the render surface
-	screenSurface->render(screenFBO->getTextureId());
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	uiLayer.render(_matrixStack, _renderOptions);
+
+	FrameBufferInterface::popFbo();
+
+
+	screenSurface->render(screenFBO->getTextureId());
 }
 
 void MY_Scene::load(){
