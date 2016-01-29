@@ -28,6 +28,7 @@ int WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd, int show){
 
 	Log::THROW_ON_ERROR = true;
 
+	//OpenAL_Sound::masterGain = 0; // mute
 	//sweet::NumberUtils::seed(time(nullptr)); // seed RNG
 
 	sweet::initialize("Game");
