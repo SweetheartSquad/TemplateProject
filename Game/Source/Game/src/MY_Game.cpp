@@ -7,7 +7,7 @@
 #include <MY_Scene_Menu.h>
 #include <MY_Scene_Box2D.h>
 #include <MY_Scene_Bullet3D.h>
-#include <MY_Scene_Shaders.h>
+#include <MY_Scene_SurfaceShaders.h>
 #include <MY_Scene_ScreenShaders.h>
 
 
@@ -21,7 +21,7 @@ MY_Game::MY_Game() :
 	// before switching to it, and create it then if needed.
 	scenes["box2d"] = new MY_Scene_Box2D(this);
 	scenes["bullet3d"] = new MY_Scene_Bullet3D(this);
-	scenes["shaders"] = new MY_Scene_Shaders(this);
+	scenes["surfaceshaders"] = new MY_Scene_SurfaceShaders(this);
 	scenes["screenshaders"] = new MY_Scene_ScreenShaders(this);
 }
 

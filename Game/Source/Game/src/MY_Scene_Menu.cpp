@@ -21,24 +21,28 @@ MY_Scene_Menu::MY_Scene_Menu(Game * _game) :
 	TextLabel * label2 = new TextLabel(uiLayer->world, font, textShader);
 	TextLabel * label3 = new TextLabel(uiLayer->world, font, textShader);
 	TextLabel * label4 = new TextLabel(uiLayer->world, font, textShader);
+	TextLabel * label5 = new TextLabel(uiLayer->world, font, textShader);
 
 	// set the text on the labels
 	label1->setText("Box2D Test Scene");
 	label2->setText("Bullet3D Test Scene");
-	label3->setText("Shader Test Scene");
-	label4->setText("Quit Game");
+	label3->setText("Surface Shader Test Scene");
+	label4->setText("Screen Shader Test Scene");
+	label5->setText("Quit Game");
 
 	// make the labels' background visible (by default both the scene's clear colour and the text colour will be black)
 	label1->setBackgroundColour(1,1,1,1);
 	label2->setBackgroundColour(1,1,1,1);
 	label3->setBackgroundColour(1,1,1,1);
 	label4->setBackgroundColour(1,1,1,1);
+	label5->setBackgroundColour(1,1,1,1);
 
 	// make the labels clickable
 	label1->setMouseEnabled(true);
 	label2->setMouseEnabled(true);
 	label3->setMouseEnabled(true);
 	label4->setMouseEnabled(true);
+	label5->setMouseEnabled(true);
 
 	// add listeners to each label, making them buttons that take the player to different scenes
 	label1->eventManager.addEventListener("click", [&](sweet::Event * _event){
@@ -48,9 +52,12 @@ MY_Scene_Menu::MY_Scene_Menu(Game * _game) :
 		game->switchScene("bullet3d", false);
 	});
 	label3->eventManager.addEventListener("click", [&](sweet::Event * _event){
-		game->switchScene("shaders", false);
+		game->switchScene("surfaceshaders", false);
 	});
 	label4->eventManager.addEventListener("click", [&](sweet::Event * _event){
+		game->switchScene("screenshaders", false);
+	});
+	label5->eventManager.addEventListener("click", [&](sweet::Event * _event){
 		game->exit();
 	});
 
@@ -60,6 +67,7 @@ MY_Scene_Menu::MY_Scene_Menu(Game * _game) :
 	layout->addChild(label2);
 	layout->addChild(label3);
 	layout->addChild(label4);
+	layout->addChild(label5);
 
 	// add the layout to the uiLayer
 	uiLayer->addChild(layout);
