@@ -23,6 +23,7 @@ MY_Game::MY_Game() :
 	scenes["bullet3d"] = new MY_Scene_Bullet3D(this);
 	scenes["surfaceshaders"] = new MY_Scene_SurfaceShaders(this);
 	scenes["screenshaders"] = new MY_Scene_ScreenShaders(this);
+	scenes["surfaceshaders"] = new MY_Scene_SurfaceShaders(this);
 }
 
 MY_Game::~MY_Game(){
