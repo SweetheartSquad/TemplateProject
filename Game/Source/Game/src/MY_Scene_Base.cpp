@@ -13,17 +13,12 @@
 #include <shader\ShaderComponentDiffuse.h>
 #include <shader\ShaderComponentMVP.h>
 
-#include <RenderSurface.h>
-#include <StandardFrameBuffer.h>
 #include <NumberUtils.h>
 
 #include <RenderOptions.h>
 
 MY_Scene_Base::MY_Scene_Base(Game * _game) :
 	Scene(_game),
-	screenSurfaceShader(new Shader("assets/engine basics/DefaultRenderSurface", false, true)),
-	screenSurface(new RenderSurface(screenSurfaceShader)),
-	screenFBO(new StandardFrameBuffer(true)),
 	baseShader(new ComponentShaderBase(true)),
 	textShader(new ComponentShaderText(true)),
 	font(MY_ResourceManager::globalAssets->getFont("DEFAULT")->font),
@@ -53,10 +48,6 @@ MY_Scene_Base::MY_Scene_Base(Game * _game) :
 	// reference counting for member variables
 	++baseShader->referenceCount;
 	++textShader->referenceCount;
-
-	++screenSurface->referenceCount;
-	++screenSurfaceShader->referenceCount;
-	++screenFBO->referenceCount;
 }
 
 MY_Scene_Base::~MY_Scene_Base(){
@@ -65,10 +56,6 @@ MY_Scene_Base::~MY_Scene_Base(){
 	// auto-delete member variables
 	baseShader->decrementAndDelete();
 	textShader->decrementAndDelete();
-
-	screenSurface->decrementAndDelete();
-	screenSurfaceShader->decrementAndDelete();
-	screenFBO->decrementAndDelete();
 
 	delete uiLayer;
 	delete controller;
@@ -102,34 +89,18 @@ void MY_Scene_Base::update(Step * _step){
 }
 
 void MY_Scene_Base::render(sweet::MatrixStack * _matrixStack, RenderOptions * _renderOptions){
-	screenFBO->resize(game->viewPortWidth, game->viewPortHeight);
-
-
-	FrameBufferInterface::pushFbo(screenFBO);
-
 	_renderOptions->clear();
 	Scene::render(_matrixStack, _renderOptions);
 	uiLayer->render(_matrixStack, _renderOptions);
-
-	FrameBufferInterface::popFbo();
-
-
-	screenSurface->render(screenFBO->getTextureId());
 }
 
 void MY_Scene_Base::load(){
 	Scene::load();	
-
-	screenSurface->load();
-	screenFBO->load();
 	uiLayer->load();
 }
 
 void MY_Scene_Base::unload(){
 	uiLayer->unload();
-	screenFBO->unload();
-	screenSurface->unload();
-
 	Scene::unload();	
 }
 

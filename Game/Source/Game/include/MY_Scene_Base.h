@@ -8,8 +8,6 @@
 #include <MY_ResourceManager.h>
 #include <sweet/Input.h>
 
-class RenderSurface;
-class StandardFrameBuffer;
 class ComponentShaderText;
 class Font;
 
@@ -19,10 +17,6 @@ class Font;
 // which isn't a part of the default scene class, so we can put it all here
 class MY_Scene_Base : public Scene{
 public:
-	Shader * screenSurfaceShader;
-	RenderSurface * screenSurface;
-	StandardFrameBuffer * screenFBO;
-	
 	// The main shader for the scene.
 	// This typically contains at least an MVP component, and a texture component.
 	// It usually also has a lighting component of some sort (diffuse, phong, toon, etc).

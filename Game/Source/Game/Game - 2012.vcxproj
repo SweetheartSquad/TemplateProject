@@ -19,6 +19,7 @@
     <ClCompile Include="src\MY_Scene_Bullet3D.cpp" />
     <ClCompile Include="src\MY_Scene_Menu.cpp" />
     <ClCompile Include="src\MY_Scene_Shaders.cpp" />
+    <ClCompile Include="src\MY_Scene_ScreenShaders.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\MY_Game.h" />
@@ -28,6 +29,7 @@
     <ClInclude Include="include\MY_Scene_Bullet3D.h" />
     <ClInclude Include="include\MY_Scene_Menu.h" />
     <ClInclude Include="include\MY_Scene_Shaders.h" />
+    <ClInclude Include="include\MY_Scene_ScreenShaders.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>

@@ -8,6 +8,7 @@
 #include <MY_Scene_Box2D.h>
 #include <MY_Scene_Bullet3D.h>
 #include <MY_Scene_Shaders.h>
+#include <MY_Scene_ScreenShaders.h>
 
 
 MY_Game::MY_Game() :
@@ -21,6 +22,7 @@ MY_Game::MY_Game() :
 	scenes["box2d"] = new MY_Scene_Box2D(this);
 	scenes["bullet3d"] = new MY_Scene_Bullet3D(this);
 	scenes["shaders"] = new MY_Scene_Shaders(this);
+	scenes["screenshaders"] = new MY_Scene_ScreenShaders(this);
 }
 
 MY_Game::~MY_Game(){
