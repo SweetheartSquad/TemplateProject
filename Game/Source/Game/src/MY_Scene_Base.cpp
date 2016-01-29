@@ -1,9 +1,8 @@
 #pragma once
 
-#include <MY_Scene.h>
+#include <MY_Scene_Base.h>
 #include <MY_ResourceManager.h>
 
-#include <Game.h>
 #include <MeshEntity.h>
 #include <MeshInterface.h>
 #include <MeshFactory.h>
@@ -43,17 +42,16 @@
 
 #include <RenderOptions.h>
 
-MY_Scene::MY_Scene(Game * _game) :
+MY_Scene_Base::MY_Scene_Base(Game * _game) :
 	Scene(_game),
 	screenSurfaceShader(new Shader("assets/engine basics/DefaultRenderSurface", false, true)),
 	screenSurface(new RenderSurface(screenSurfaceShader)),
 	screenFBO(new StandardFrameBuffer(true)),
 	baseShader(new ComponentShaderBase(true)),
 	textShader(new ComponentShaderText(true)),
-	debugDrawer(nullptr),
-	uiLayer(0,0,0,0),
-	box2dWorld(new Box2DWorld(b2Vec2(0.f, -10.0f))),
-	box2dDebug(new Box2DDebugDrawer(box2dWorld))
+	font(MY_ResourceManager::globalAssets->getFont("DEFAULT")->font),
+	uiLayer(new UILayer(0,0,0,0)),
+	debugCam(new MousePerspectiveCamera())
 {
 	baseShader->addComponent(new ShaderComponentMVP(baseShader));
 	baseShader->addComponent(new ShaderComponentDiffuse(baseShader));
@@ -62,31 +60,16 @@ MY_Scene::MY_Scene(Game * _game) :
 
 	textShader->textComponent->setColor(glm::vec3(0.0f, 0.0f, 0.0f));
 
-
-	// remove initial camera
-	childTransform->removeChild(cameras.at(0)->firstParent());
-	delete cameras.at(0)->firstParent();
-	cameras.pop_back();
-
-	//Set up debug camera
-	debugCam = new MousePerspectiveCamera();
-	cameras.push_back(debugCam);
-	childTransform->addChild(debugCam);
+	// Set up debug camera
+	cameras.push_back(debugCam); // Add it to the cameras list (this isn't strictly necessary, but is useful organizational and debugging purposes)
+	childTransform->addChild(debugCam); // Add it to the scene to give it a position and remove the need to update it manually
+	activeCamera = debugCam; // Make it the active camera so that it is the source for the view-projection matrices
+	// configure the camera's default properties
 	debugCam->farClip = 1000.f;
-	debugCam->parents.at(0)->translate(5.0f, 1.5f, 22.5f);
+	debugCam->nearClip = 0.01f;
+	debugCam->firstParent()->translate(5.0f, 1.5f, 22.5f);
 	debugCam->yaw = 90.0f;
 	debugCam->pitch = -10.0f;
-
-	activeCamera = debugCam;
-
-	childTransform->addChild(box2dDebug, false);
-	box2dDebug->drawing = true;
-	box2dWorld->b2world->SetDebugDraw(box2dDebug);
-	box2dDebug->AppendFlags(b2Draw::e_shapeBit);
-	box2dDebug->AppendFlags(b2Draw::e_centerOfMassBit);
-	box2dDebug->AppendFlags(b2Draw::e_jointBit);
-
-	uiLayer.addMouseIndicator();
 	
 
 	// reference counting for member variables
@@ -98,10 +81,9 @@ MY_Scene::MY_Scene(Game * _game) :
 	++screenFBO->referenceCount;
 }
 
-MY_Scene::~MY_Scene(){
+MY_Scene_Base::~MY_Scene_Base(){
 	deleteChildTransform();
 
-	
 	// auto-delete member variables
 	baseShader->decrementAndDelete();
 	textShader->decrementAndDelete();
@@ -109,31 +91,36 @@ MY_Scene::~MY_Scene(){
 	screenSurface->decrementAndDelete();
 	screenSurfaceShader->decrementAndDelete();
 	screenFBO->decrementAndDelete();
+
+	delete uiLayer;
 }
 
 
-void MY_Scene::update(Step * _step){
-
-	box2dWorld->update(_step);
-	
+void MY_Scene_Base::update(Step * _step){
+	// basic debugging controls
 	if(keyboard->keyJustDown(GLFW_KEY_ESCAPE)){
-		game->exit();
-	}
-	if(keyboard->keyJustDown(GLFW_KEY_F11)){
+		// if the user hits escape on the menu, exit the game
+		// if the user hits escape anywhere else, take them to the menu
+		if(game->scenes["menu"] == this){
+			game->exit();
+		}else{
+			game->switchScene("menu", false);
+		}
+	}if(keyboard->keyJustDown(GLFW_KEY_F11)){
 		game->toggleFullScreen();
-	}
-
-	if(keyboard->keyJustDown(GLFW_KEY_1)){
+	}if(keyboard->keyJustDown(GLFW_KEY_1)){
 		cycleCamera();
+	}if(keyboard->keyJustDown(GLFW_KEY_2)){
+		toggleDebug();
 	}
 
 	glm::uvec2 sd = sweet::getWindowDimensions();
-	uiLayer.resize(0, sd.x, 0, sd.y);
+	uiLayer->resize(0, sd.x, 0, sd.y);
 	Scene::update(_step);
-	uiLayer.update(_step);
+	uiLayer->update(_step);
 }
 
-void MY_Scene::render(sweet::MatrixStack * _matrixStack, RenderOptions * _renderOptions){
+void MY_Scene_Base::render(sweet::MatrixStack * _matrixStack, RenderOptions * _renderOptions){
 	screenFBO->resize(game->viewPortWidth, game->viewPortHeight);
 
 
@@ -141,7 +128,7 @@ void MY_Scene::render(sweet::MatrixStack * _matrixStack, RenderOptions * _render
 
 	_renderOptions->clear();
 	Scene::render(_matrixStack, _renderOptions);
-	uiLayer.render(_matrixStack, _renderOptions);
+	uiLayer->render(_matrixStack, _renderOptions);
 
 	FrameBufferInterface::popFbo();
 
@@ -149,18 +136,36 @@ void MY_Scene::render(sweet::MatrixStack * _matrixStack, RenderOptions * _render
 	screenSurface->render(screenFBO->getTextureId());
 }
 
-void MY_Scene::load(){
+void MY_Scene_Base::load(){
 	Scene::load();	
 
 	screenSurface->load();
 	screenFBO->load();
-	uiLayer.load();
+	uiLayer->load();
 }
 
-void MY_Scene::unload(){
-	uiLayer.unload();
+void MY_Scene_Base::unload(){
+	uiLayer->unload();
 	screenFBO->unload();
 	screenSurface->unload();
 
 	Scene::unload();	
+}
+
+
+bool MY_Scene_Base::isDebugEnabled(){	
+	return Transform::drawTransforms;
+}
+
+void MY_Scene_Base::toggleDebug(){
+	isDebugEnabled() ? disableDebug() : enableDebug();
+}
+
+void MY_Scene_Base::enableDebug(){
+	Transform::drawTransforms = true;
+	uiLayer->bulletDebugDrawer->setDebugMode(btIDebugDraw::DBG_MAX_DEBUG_DRAW_MODE);
+}
+void MY_Scene_Base::disableDebug(){
+	Transform::drawTransforms = false;
+	uiLayer->bulletDebugDrawer->setDebugMode(btIDebugDraw::DBG_NoDebug);
 }
