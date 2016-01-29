@@ -28,7 +28,8 @@ MY_Scene_Base::MY_Scene_Base(Game * _game) :
 	textShader(new ComponentShaderText(true)),
 	font(MY_ResourceManager::globalAssets->getFont("DEFAULT")->font),
 	uiLayer(new UILayer(0,0,0,0)),
-	debugCam(new MousePerspectiveCamera())
+	debugCam(new MousePerspectiveCamera()),
+	controller(new JoystickVirtual(0))
 {
 	baseShader->addComponent(new ShaderComponentMVP(baseShader));
 	//baseShader->addComponent(new ShaderComponentDiffuse(baseShader));
@@ -70,10 +71,13 @@ MY_Scene_Base::~MY_Scene_Base(){
 	screenFBO->decrementAndDelete();
 
 	delete uiLayer;
+	delete controller;
 }
 
 
 void MY_Scene_Base::update(Step * _step){
+	controller->update(_step);
+
 	// basic debugging controls
 	if(keyboard->keyJustDown(GLFW_KEY_ESCAPE)){
 		// if the user hits escape on the menu, exit the game

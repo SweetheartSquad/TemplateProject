@@ -6,6 +6,8 @@
 #include <MousePerspectiveCamera.h>
 
 #include <MY_ResourceManager.h>
+#include <sweet/Input.h>
+
 class RenderSurface;
 class StandardFrameBuffer;
 class ComponentShaderText;
@@ -45,6 +47,9 @@ public:
 	// They are derived from NodeUI, so we can use the NodeUI layout system instead
 	// of manually positioning other NodeUI elements during the update loop
 	UILayer * const uiLayer;
+
+	// The joystick class 
+	Joystick * const controller;
 
 	MY_Scene_Base(Game * _game);
 	virtual ~MY_Scene_Base();
