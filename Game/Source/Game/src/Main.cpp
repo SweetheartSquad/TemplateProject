@@ -28,18 +28,25 @@ int WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd, int show){
 
 	Log::THROW_ON_ERROR = true;
 
+	sweet::initialize("Game"); // initialize engine (argument is application title)
+
 	//OpenAL_Sound::masterGain = 0; // mute
 	//sweet::NumberUtils::seed(time(nullptr)); // seed RNG
 
-	sweet::initialize("Game");
+	// load resources
 	MY_ResourceManager::init();
 	MY_ResourceManager::load();
+
+	// create and initialize game
 	MY_Game * game = new MY_Game();
 	game->init();
+
+	// main game loop
 	while (game->isRunning){
 		game->performGameLoop();
 	}
 	
+	// deallocate resources
 	delete game;
 	game = nullptr;
 	MY_ResourceManager::destruct();
