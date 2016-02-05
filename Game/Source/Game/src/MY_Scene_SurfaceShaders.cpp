@@ -15,6 +15,8 @@
 #include <PointLight.h>
 #include <Material.h>
 
+#include <CubeMap.h>
+
 MY_Scene_SurfaceShaders::MY_Scene_SurfaceShaders(Game * _game) :
 	MY_Scene_Base(_game),
 	diffuseShader(new ComponentShaderBase(true)),
@@ -81,6 +83,10 @@ MY_Scene_SurfaceShaders::MY_Scene_SurfaceShaders(Game * _game) :
 
 	// add a cube to the light too so that we can see it without having to use the debug mode
 	light->childTransform->addChild(new MeshEntity(cubeMesh, baseShader),false);
+
+	// add a cubemap (cubemaps use a special texture type and shader component. these can be instantiated separately if desired, but the CubeMap class handles them both for us)
+	CubeMap * cubemap = new CubeMap("assets/textures/cubemap", "png");
+	childTransform->addChild(cubemap);
 }
 
 
