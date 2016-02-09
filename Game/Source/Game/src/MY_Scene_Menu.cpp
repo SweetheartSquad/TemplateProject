@@ -13,8 +13,8 @@ MY_Scene_Menu::MY_Scene_Menu(Game * _game) :
 	layout->horizontalAlignment = kCENTER;
 	layout->verticalAlignment = kMIDDLE;
 	// set the layout's size to 100% of its parent
-	layout->setRationalHeight(1.f);
-	layout->setRationalWidth(1.f);
+	layout->setRationalHeight(1.f, uiLayer);
+	layout->setRationalWidth(1.f, uiLayer);
 
 	// Create some text labels
 	TextLabel * label1 = new TextLabel(uiLayer->world, font, textShader);

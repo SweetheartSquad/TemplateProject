@@ -15,6 +15,7 @@
 #include <PointLight.h>
 
 #include <StereoCamera.h>
+#include <CubeMap.h>
 
 MY_Scene_VR::MY_Scene_VR(Game * _game) :
 	MY_Scene_Base(_game),
@@ -48,6 +49,10 @@ MY_Scene_VR::MY_Scene_VR(Game * _game) :
 	lights.push_back(light);
 	// add a cube to the light too so that we can see it without having to use the debug mode
 	light->childTransform->addChild(new MeshEntity(cubeMesh, baseShader), false);
+
+	// add a cubemap (cubemaps use a special texture type and shader component. these can be instantiated separately if desired, but the CubeMap class handles them both for us)
+	CubeMap * cubemap = new CubeMap("assets/textures/cubemap", "png");
+	childTransform->addChild(cubemap);
 }
 
 void MY_Scene_VR::render(sweet::MatrixStack * _matrixStack, RenderOptions * _renderOptions){
