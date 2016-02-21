@@ -32,6 +32,7 @@ int WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd, int show){
 
 	//OpenAL_Sound::masterGain = 0; // mute
 	//sweet::NumberUtils::seed(time(nullptr)); // seed RNG
+	//Node::nodeCounting = true; // uncomment this if you're checking for memory leaks and stuff (it's really slow so don't do it if you don't need it)
 
 	// load resources
 	MY_ResourceManager::init();
