@@ -49,22 +49,22 @@ MY_Scene_Menu::MY_Scene_Menu(Game * _game) :
 	label6->setMouseEnabled(true);
 
 	// add listeners to each label, making them buttons that take the player to different scenes
-	label1->eventManager.addEventListener("click", [&](sweet::Event * _event){
+	label1->eventManager->addEventListener("click", [&](sweet::Event * _event){
 		game->switchScene("box2d", false);
 	});
-	label2->eventManager.addEventListener("click", [&](sweet::Event * _event){
+	label2->eventManager->addEventListener("click", [&](sweet::Event * _event){
 		game->switchScene("bullet3d", false);
 	});
-	label3->eventManager.addEventListener("click", [&](sweet::Event * _event){
+	label3->eventManager->addEventListener("click", [&](sweet::Event * _event){
 		game->switchScene("surfaceshaders", false);
 	});
-	label4->eventManager.addEventListener("click", [&](sweet::Event * _event){
+	label4->eventManager->addEventListener("click", [&](sweet::Event * _event){
 		game->switchScene("screenshaders", false);
 	});
-	label5->eventManager.addEventListener("click", [&](sweet::Event * _event){
+	label5->eventManager->addEventListener("click", [&](sweet::Event * _event){
 		game->switchScene("vr", false);
 	});
-	label6->eventManager.addEventListener("click", [&](sweet::Event * _event){
+	label6->eventManager->addEventListener("click", [&](sweet::Event * _event){
 		game->exit();
 	});
 

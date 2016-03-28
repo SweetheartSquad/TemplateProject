@@ -31,8 +31,9 @@ int WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd, int show){
 	sweet::initialize("Game"); // initialize engine (argument is application title)
 
 	//OpenAL_Sound::masterGain = 0; // mute
-	//sweet::NumberUtils::seed(time(nullptr)); // seed RNG
-	//Node::nodeCounting = true; // uncomment this if you're checking for memory leaks and stuff (it's really slow so don't do it if you don't need it)
+#ifdef _DEBUG
+	Node::nodeCounting = true; // set this to true if you're checking for memory leaks and stuff (it's really slow so don't do it if you don't need it)
+#endif
 
 	// load resources
 	MY_ResourceManager::init();
@@ -52,10 +53,12 @@ int WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd, int show){
 	game = nullptr;
 	MY_ResourceManager::destruct();
 #ifdef _DEBUG
-	std::cout << "Final node count: " << Node::nodes.size() << std::endl;
+	if(Node::nodeCounting){
+		std::cout << "Final node count: " << Node::nodes.size() << std::endl;
 
-	for(auto n : Node::nodes){
-		std::cout << typeid(*n).name() << " " << n << std::endl;
+		for(auto n : Node::nodes){
+			std::cout << typeid(*n).name() << " " << n << std::endl;
+		}
 	}
 #endif
 
