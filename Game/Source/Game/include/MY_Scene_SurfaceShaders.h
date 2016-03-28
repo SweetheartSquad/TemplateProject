@@ -10,6 +10,8 @@ public:
 	ComponentShaderBase * phongShader;
 	ComponentShaderBase * blinnShader;
 	ComponentShaderBase * toonShader;
+
+	std::vector<Shader *> shaders;
 	
 	// We need a light source, otherwise most of the objects in the scene will be black
 	PointLight * light;
@@ -17,4 +19,5 @@ public:
 	virtual void update(Step * _step) override;
 
 	MY_Scene_SurfaceShaders(Game * _game);
+	~MY_Scene_SurfaceShaders();
 };

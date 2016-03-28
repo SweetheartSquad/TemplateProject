@@ -69,9 +69,7 @@ void MY_Scene_Base::update(Step * _step){
 	if(keyboard->keyJustDown(GLFW_KEY_ESCAPE)){
 		// if the user hits escape on the menu, exit the game
 		// if the user hits escape anywhere else, take them to the menu
-		if(game->scenes["menu"] == this){
-			game->exit();
-		}else{
+		if(game->scenes["menu"] != this){
 			game->switchScene("menu", false);
 		}
 	}if(keyboard->keyJustDown(GLFW_KEY_F11)){

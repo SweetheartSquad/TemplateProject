@@ -45,7 +45,6 @@ MY_Scene_SurfaceShaders::MY_Scene_SurfaceShaders(Game * _game) :
 	toonShader->compileShader();
 
 	// add all of our surface shaders to a list so that we can easily assign them in a loop
-	std::vector<Shader *> shaders;
 	shaders.push_back(baseShader);
 	shaders.push_back(diffuseShader);
 	shaders.push_back(phongShader);
@@ -87,8 +86,17 @@ MY_Scene_SurfaceShaders::MY_Scene_SurfaceShaders(Game * _game) :
 	// add a cubemap (cubemaps use a special texture type and shader component. these can be instantiated separately if desired, but the CubeMap class handles them both for us)
 	CubeMap * cubemap = new CubeMap("assets/textures/cubemap", "png");
 	childTransform->addChild(cubemap);
+
+	for(auto s : shaders){
+		++s->referenceCount;
+	}
 }
 
+MY_Scene_SurfaceShaders::~MY_Scene_SurfaceShaders(){	
+	for(auto s : shaders){
+		s->decrementAndDelete();
+	}
+}
 
 void MY_Scene_SurfaceShaders::update(Step * _step){
 	// scene update
