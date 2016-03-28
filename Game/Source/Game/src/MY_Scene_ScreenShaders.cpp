@@ -15,9 +15,9 @@ MY_Scene_ScreenShaders::MY_Scene_ScreenShaders(Game * _game) :
 
 
 	// memory management
-	++screenSurface->referenceCount;
-	++screenSurfaceShader->referenceCount;
-	++screenFBO->referenceCount;
+	screenSurface->incrementReferenceCount();
+	screenSurfaceShader->incrementReferenceCount();
+	screenFBO->incrementReferenceCount();
 }
 
 MY_Scene_ScreenShaders::~MY_Scene_ScreenShaders(){

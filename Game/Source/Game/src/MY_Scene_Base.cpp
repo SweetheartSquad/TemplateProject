@@ -46,8 +46,8 @@ MY_Scene_Base::MY_Scene_Base(Game * _game) :
 	
 
 	// reference counting for member variables
-	++baseShader->referenceCount;
-	++textShader->referenceCount;
+	baseShader->incrementReferenceCount();
+	textShader->incrementReferenceCount();
 }
 
 MY_Scene_Base::~MY_Scene_Base(){

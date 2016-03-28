@@ -88,7 +88,7 @@ MY_Scene_SurfaceShaders::MY_Scene_SurfaceShaders(Game * _game) :
 	childTransform->addChild(cubemap);
 
 	for(auto s : shaders){
-		++s->referenceCount;
+		s->incrementReferenceCount();
 	}
 }
 
