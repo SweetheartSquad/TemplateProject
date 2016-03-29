@@ -28,21 +28,25 @@ MY_Scene_SurfaceShaders::MY_Scene_SurfaceShaders(Game * _game) :
 	diffuseShader->addComponent(new ShaderComponentDiffuse(diffuseShader, false));
 	diffuseShader->addComponent(new ShaderComponentTexture(diffuseShader));
 	diffuseShader->compileShader();
+	diffuseShader->name = "Scene: Surface Shaders, Shader: diffuse";
 
 	phongShader->addComponent(new ShaderComponentMVP(phongShader));
 	phongShader->addComponent(new ShaderComponentPhong(phongShader));
 	phongShader->addComponent(new ShaderComponentTexture(phongShader));
 	phongShader->compileShader();
+	phongShader->name = "Scene: Surface Shaders, Shader: phong";
 
 	blinnShader->addComponent(new ShaderComponentMVP(blinnShader));
 	blinnShader->addComponent(new ShaderComponentBlinn(blinnShader));
 	blinnShader->addComponent(new ShaderComponentTexture(blinnShader));
 	blinnShader->compileShader();
+	blinnShader->name = "Scene: Surface Shaders, Shader: blinn";
 
 	toonShader->addComponent(new ShaderComponentMVP(toonShader));
 	toonShader->addComponent(new ShaderComponentToon(toonShader, new RampTexture(glm::vec3(0), glm::vec3(1), 5), false));
 	toonShader->addComponent(new ShaderComponentTexture(toonShader));
 	toonShader->compileShader();
+	toonShader->name = "Scene: Surface Shaders, Shader: toon";
 
 	// add all of our surface shaders to a list so that we can easily assign them in a loop
 	shaders.push_back(baseShader);

@@ -27,11 +27,13 @@ MY_Scene_VR::MY_Scene_VR(Game * _game) :
 	vrCam->childTransform->addChild(new CameraController(vrCam), false);
 
 	// We need some stuff to look at, so we set up a diffuse shader, a light, and some simple objects
-	ComponentShaderBase * diffuseShader = new ComponentShaderBase(true);
+	diffuseShader = new ComponentShaderBase(true);
 	diffuseShader->addComponent(new ShaderComponentMVP(diffuseShader));
 	diffuseShader->addComponent(new ShaderComponentDiffuse(diffuseShader, false));
 	diffuseShader->addComponent(new ShaderComponentTexture(diffuseShader));
 	diffuseShader->compileShader();
+	diffuseShader->incrementReferenceCount();
+	diffuseShader->name = "Scene: VR, Shader: diffuse";
 
 
 	
@@ -53,6 +55,10 @@ MY_Scene_VR::MY_Scene_VR(Game * _game) :
 	// add a cubemap (cubemaps use a special texture type and shader component. these can be instantiated separately if desired, but the CubeMap class handles them both for us)
 	CubeMap * cubemap = new CubeMap("assets/textures/cubemap", "png");
 	childTransform->addChild(cubemap);
+}
+
+MY_Scene_VR::~MY_Scene_VR(){
+	diffuseShader->decrementAndDelete();
 }
 
 void MY_Scene_VR::render(sweet::MatrixStack * _matrixStack, RenderOptions * _renderOptions){

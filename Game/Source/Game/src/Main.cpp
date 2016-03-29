@@ -25,7 +25,6 @@ int main(void){
 #else
 int WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd, int show){	
 #endif
-
 	Log::THROW_ON_ERROR = true;
 
 	sweet::initialize("Game"); // initialize engine (argument is application title)
@@ -54,16 +53,8 @@ int WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd, int show){
 	resources = nullptr;
 	
 	sweet::destruct();
-#ifdef _DEBUG
-	if(Node::nodeCounting){
-		std::cout << "Final node count: " << Node::nodes.size() << std::endl;
-
-		for(auto n : Node::nodes){
-			std::cout << typeid(*n).name() << " " << n << std::endl;
-		}
-	}
-#endif
-
+	sweet::printNodes();
+	
 	
 #ifdef _DEBUG
 	_CrtMemDumpAllObjectsSince(&s1);
