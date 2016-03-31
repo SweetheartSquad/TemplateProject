@@ -3,6 +3,7 @@
 #include <MY_Scene_ScreenShaders.h>
 #include <RenderSurface.h>
 #include <StandardFrameBuffer.h>
+#include <RenderOptions.h>
 
 MY_Scene_ScreenShaders::MY_Scene_ScreenShaders(Game * _game) :
 	MY_Scene_Base(_game),
@@ -35,10 +36,10 @@ void MY_Scene_ScreenShaders::update(Step * _step){
 	// we need to use the OpenGL API calls
 	screenSurfaceShader->bindShader(); // remember that we have to bind the shader before it can be updated
 	GLint test = glGetUniformLocation(screenSurfaceShader->getProgramId(), "time");
-	checkForGlError(0,__FILE__,__LINE__);
+	checkForGlError(0);
 	if(test != -1){
 		glUniform1f(test, _step->time);
-		checkForGlError(0,__FILE__,__LINE__);
+		checkForGlError(0);
 	}
 
 
@@ -47,8 +48,8 @@ void MY_Scene_ScreenShaders::update(Step * _step){
 }
 
 void MY_Scene_ScreenShaders::render(sweet::MatrixStack * _matrixStack, RenderOptions * _renderOptions){
-	// keep our screen framebuffer up-to-date with the game's viewport
-	screenFBO->resize(game->viewPortWidth, game->viewPortHeight);
+	// keep our screen framebuffer up-to-date with the current viewport
+	screenFBO->resize(_renderOptions->viewPortDimensions.width, _renderOptions->viewPortDimensions.height);
 
 	// bind our screen framebuffer
 	FrameBufferInterface::pushFbo(screenFBO);
