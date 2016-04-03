@@ -27,12 +27,7 @@ int __stdcall WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd, int show){
 #endif
 	Log::THROW_ON_ERROR = true;
 
-	sweet::initialize("Game"); // initialize engine (argument is application title)
-
-	//OpenAL_Sound::masterGain = 0; // mute
-#ifdef _DEBUG
-	Node::nodeCounting = true; // set this to true if you're checking for memory leaks and stuff (it's really slow so don't do it if you don't need it)
-#endif
+	sweet::initialize(); // initialize engine
 
 	// load resources
 	MY_ResourceManager * resources = new MY_ResourceManager();
