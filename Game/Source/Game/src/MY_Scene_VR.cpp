@@ -33,7 +33,7 @@ MY_Scene_VR::MY_Scene_VR(Game * _game) :
 	diffuseShader->addComponent(new ShaderComponentTexture(diffuseShader));
 	diffuseShader->compileShader();
 	diffuseShader->incrementReferenceCount();
-	diffuseShader->name = "Scene: VR, Shader: diffuse";
+	diffuseShader->nodeName = "Scene: VR, Shader: diffuse";
 
 
 	

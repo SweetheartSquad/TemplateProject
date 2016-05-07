@@ -30,10 +30,10 @@ MY_Scene_Base::MY_Scene_Base(Game * _game) :
 	//baseShader->addComponent(new ShaderComponentDiffuse(baseShader));
 	baseShader->addComponent(new ShaderComponentTexture(baseShader));
 	baseShader->compileShader();
-	baseShader->name = "MY_Scene_Base base shader";
+	baseShader->nodeName = "MY_Scene_Base base shader";
 
 	textShader->textComponent->setColor(glm::vec4(0.0f, 0.0f, 0.0f, 1.f));
-	textShader->name = "MY_Scene_Base text shader";
+	textShader->nodeName = "MY_Scene_Base text shader";
 
 	// Set up debug camera
 	cameras.push_back(debugCam); // Add it to the cameras list (this isn't strictly necessary, but is useful organizational and debugging purposes)
