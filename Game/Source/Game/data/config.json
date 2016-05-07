@@ -17,6 +17,10 @@
 		"other": 1
 	},
 	
+	"generateMipmapsDefault": true,
+	"scaleModeMagDefault": "GL_LINEAR",
+	"scaleModeMinDefault": "GL_LINEAR_MIPMAP_LINEAR",
+	
 	"rngSeed": 0,
 	"nodeCounting": true,
 	"useLibOVR": false
